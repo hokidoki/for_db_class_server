@@ -10,7 +10,10 @@ var usersRouter = require('./routes/users');
 var valid = require('./routes/account/valid');
 var signup = require('./routes/account/signUp');
 var signin = require('./routes/account/signIn');
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 var app = express();
 
 // view engine setup
@@ -29,7 +32,10 @@ app.use('/', usersRouter);
 app.use('/', valid);
 app.use('/',signup);
 app.use('/',signin);
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,7 +53,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-app.listen(3000,()=>{
+app.listen(8000,()=>{
   console.log("hello");
 })
 

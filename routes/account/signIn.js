@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/signin',function(req,res,next){
+<<<<<<< HEAD
     // console.log(req);
     // console.log(req.body.ID);
     var queryString = `SELECT * FROM ACCOUNT WHERE ID = '${req.body.ID}' AND PASSWORD='${req.body.PASSWORD}'`;
@@ -16,4 +17,19 @@ router.post('/signin',function(req,res,next){
     })
 })
 
+=======
+    var queryString = `SELECT * FROM USER WHERE ID = '${req.body.ID}' AND PW='${req.body.PASSWORD}'`;
+    console.log(queryString);
+        connection.query(queryString,function(err,result){
+            if(err){
+                console.log(err)
+            }else{
+                console.log(result);
+                res.send(result);
+            }
+     })
+})
+
+
+>>>>>>> master
 module.exports = router;
