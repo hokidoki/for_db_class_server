@@ -5,7 +5,7 @@ module.exports = (function(){
             port : '3306',
             user : 'root',
             password : 'gozld123',
-            database : 'K-DIET',
+            database : 'K_D_A',
         },
         real : {
             host : '',
