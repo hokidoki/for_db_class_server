@@ -11,6 +11,7 @@ var valid = require('./routes/account/valid');
 var signup = require('./routes/account/signUp');
 var signin = require('./routes/account/signIn');
 var postArticle = require('./routes/article/postArticle');
+var getArticle = require('./routes/article/getArticle');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/',signup);
 app.use('/',signin);
 
 app.use('/',postArticle);
+app.use('/',getArticle);
 
 
 
