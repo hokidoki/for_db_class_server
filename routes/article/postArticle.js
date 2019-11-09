@@ -16,7 +16,6 @@ router.post('/article',function(req,res,next){
                 res.send(result);
             }
      })
-     next();
 })
 
 

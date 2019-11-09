@@ -12,6 +12,8 @@ var signup = require('./routes/account/signUp');
 var signin = require('./routes/account/signIn');
 var postArticle = require('./routes/article/postArticle');
 var getArticle = require('./routes/article/getArticle');
+var search = require('./routes/search/searchUser');
+var friendRequest = require('./routes/account/friendRequest');
 
 var app = express();
 
@@ -34,8 +36,8 @@ app.use('/',signin);
 
 app.use('/',postArticle);
 app.use('/',getArticle);
-
-
+app.use('/',search);
+app.use('/',friendRequest);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
