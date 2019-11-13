@@ -10,12 +10,12 @@ router.get('/article',function(req,res,next){
     console.log(reqId);
     console.log(reqFirstDate);
     console.log(reqLastDate);
-    // var queryString = `select COUNT(*) as VALID FROM USER WHERE ID = '${reqId}'`;
-    // console.log(queryString)
-    // connection.query(queryString,function(err,result){
-    //     console.log(result)2
-    //     res.send(result);
-    // })
+    var queryString = `SELECT * FROM PRIVATE_ARTICLE WHERE ID = '${reqId}' AND CREATED_DATE BETWEEN '${reqFirstDate}' AND '${reqLastDate}'`;
+    console.log(queryString)
+    connection.query(queryString,function(err,result){
+        console.log(result);
+        res.send(result);
+    })
 })
 
 module.exports = router;
