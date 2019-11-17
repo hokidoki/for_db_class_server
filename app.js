@@ -15,6 +15,7 @@ var postArticle = require('./routes/article/postArticle');
 var getArticle = require('./routes/article/getArticle');
 var search = require('./routes/search/searchUser');
 var friendRequest = require('./routes/account/friendRequest');
+var group = require('./routes/group/createGroup');
 
 
 var app = express();
@@ -42,6 +43,7 @@ app.use('/',getArticle);
 app.use('/',search);
 app.use('/',friendRequest);
 
+app.use('/',group);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
