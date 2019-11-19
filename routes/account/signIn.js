@@ -14,7 +14,10 @@ router.post('/signin',function(req,res,next){
                                         from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
                                             where FRIENDS.USER_ID ="${req.body.ID}" and FRIENDS.CHECK=1;`,function(err,friends){
                                                 userInfo[0].friends = friends;
-                                                res.send(userInfo);
+                                                connection.query(`select * from group_info where group_master = '${req.body.ID}'`,function(err,manageGroup){
+                                                    userInfo[0].manageGroup = manageGroup;
+                                                    res.send(userInfo);
+                                                })
                                             })
                 }else{
                     console.log(err)
