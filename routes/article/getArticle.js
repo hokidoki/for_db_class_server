@@ -48,7 +48,7 @@ router.get('/article',function(req,res,next){
     if(mod == "updatedArticle"){
       console.log('12')
       var articleRowId = req.query.articleRowId;
-      var queryString = `select USER.NAME, article.ARTICLE_ID as ARTICLE_ROW_ID,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL 
+      var queryString = `select USER.ID as ID ,USER.NAME, article.ARTICLE_ID as ARTICLE_ROW_ID,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL 
           from USER right outer join (select * from PRIVATE_ARTICLE left outer join IMAGE_URL on PRIVATE_ARTICLE.ARTICLE_ID = IMAGE_URL.ARTICLE_ROW_ID 
             where PRIVATE_ARTICLE.ARTICLE_ID = "${articleRowId}")as article on article.ID = USER.ID ;`;
             connection.query(queryString,function(err,result){
@@ -57,7 +57,7 @@ router.get('/article',function(req,res,next){
     }else if(mod =="full"){
       console.log('g')
       var userId = req.query.userId;  
-      var queryString = `select USER.NAME,ARTICLE_ROW_ID, article.ARTICLE_ID as ARTICLE_ROW_ID,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL from USER right outer join (select *
+      var queryString = `select USER.ID as ID,USER.NAME,ARTICLE_ROW_ID, article.ARTICLE_ID as ARTICLE_ROW_ID,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL from USER right outer join (select *
           from PRIVATE_ARTICLE left outer join IMAGE_URL on PRIVATE_ARTICLE.ARTICLE_ID = IMAGE_URL.ARTICLE_ROW_ID
               where PRIVATE_ARTICLE.ID in (select FRIEND_ID from FRIENDS where USER_ID = '${userId}') or PRIVATE_ARTICLE.ID = '${userId}' 
                   order by CREATED_DATE desc limit 0, 10) as article on USER.ID = article.ID;`;

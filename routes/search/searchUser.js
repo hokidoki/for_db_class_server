@@ -11,10 +11,14 @@ router.get('/search',function(req,res,next){
             where USER.NAME like '%${reqSearchKeword}%' and USER.ID not like '${reqId}'`;
             console.log(query)
     // var queryString = `select ID, NAME FROM USER WHERE NAME LIKE '%${reqSearchKeword}%' or ID = '${reqSearchKeword}'`;
-    connection.query(query,function(err,result){
-        console.log(err);
-        console.log(result);
-        res.send(result);
+    connection.query(query,function(err,users){
+        var queryForgroup = `SELECT * from group_info where group_name like "%${reqSearchKeword}%"`;
+        connection.query(queryForgroup,function(err,addedGroupInfo){
+            res.send({
+                user : users,
+                group : addedGroupInfo
+            });
+        })
     })
 })
 
