@@ -10,7 +10,6 @@ async function article(result,res) {
         return getComment(item);
       })
     );
-    console.log(addedComment);
     res.send(addedComment);
   }
 
@@ -22,7 +21,6 @@ async function article(result,res) {
             commentResult.map((comment)=>{
               return getReComment(comment);
           }))
-          console.log(addedRecomment)
           resolve(Object.assign(item,{comment : addedRecomment}));
         })
     });
@@ -30,10 +28,8 @@ async function article(result,res) {
 
   async function getReComment(comment) {
     return new Promise((resolve, reject) => {
-      console.log(comment)
         const commentQuery = `select * from PRIVATE_ARTICLE_RECOMMENT where FOR_COMMENT_ID = '${comment.COMMENT_ROW_ID}'`;
         connection.query(commentQuery,function(err,commentResult){
-          console.log(commentResult,err);
             resolve(Object.assign(comment,{recomment : commentResult}));
         })
     });
@@ -43,7 +39,6 @@ async function article(result,res) {
 router.get('/article',function(req,res,next){
   
     var mod = req.query.mod;
-    console.log("hello")
   console.log(mod)
     if(mod == "updatedArticle"){
       console.log('12')
@@ -52,6 +47,7 @@ router.get('/article',function(req,res,next){
           from USER right outer join (select * from PRIVATE_ARTICLE left outer join IMAGE_URL on PRIVATE_ARTICLE.ARTICLE_ID = IMAGE_URL.ARTICLE_ROW_ID 
             where PRIVATE_ARTICLE.ARTICLE_ID = "${articleRowId}")as article on article.ID = USER.ID ;`;
             connection.query(queryString,function(err,result){
+              console.log(result)
               article(result,res)
         })
     }else if(mod =="full"){

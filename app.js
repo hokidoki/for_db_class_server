@@ -13,6 +13,7 @@ var signup = require('./routes/account/signUp');
 var signin = require('./routes/account/signIn');
 var postArticle = require('./routes/article/postArticle');
 var getArticle = require('./routes/article/getArticle');
+var puArticle = require('./routes/article/putArticle');
 var search = require('./routes/search/searchUser');
 var friendRequest = require('./routes/account/friendRequest');
 var group = require('./routes/group/createGroup');
@@ -40,8 +41,10 @@ app.use('/',signin);
 
 app.use('/',postArticle);
 app.use('/',getArticle);
+app.use('/',puArticle);
 app.use('/',search);
 app.use('/',friendRequest);
+
 
 app.use('/',group);
 // catch 404 and forward to error handler
