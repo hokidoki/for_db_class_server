@@ -3,7 +3,7 @@ var connection = mysql_dbc.init();
 var express = require('express');
 var router = express.Router();
 
-router.post('/signin',function(req,res,next){
+router.post('/user/signin',function(req,res,next){
     var queryString = `SELECT * ,COUNT(*) as VALID FROM USER WHERE ID = '${req.body.ID}' AND PW='${req.body.PASSWORD}'`;
     var user = {};
     // console.log(queryString);

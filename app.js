@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var valid = require('./routes/account/valid');
 var signup = require('./routes/account/signUp');
 var signin = require('./routes/account/signIn');
@@ -17,6 +16,7 @@ var puArticle = require('./routes/article/putArticle');
 var search = require('./routes/search/searchUser');
 var friendRequest = require('./routes/account/friendRequest');
 var group = require('./routes/group/createGroup');
+var user = require('./routes/account/user');
 
 
 var app = express();
@@ -34,8 +34,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/', usersRouter);
 app.use('/', valid);
+app.use('/', user);
 app.use('/',signup);
 app.use('/',signin);
 
