@@ -38,10 +38,12 @@ router.put('/article/privateArticle', function (req, res, next) {
 });
 
 router.delete('/article/privateArticle',function(req,res){
-    const articleRowId = req.query.articleRowId;
-    const query = `UPDATE PRIVATE_ARTICLE SET DELETED = 1 WHERE ARTICLE_ROW_ID = '${articleRowId}'`;
+    const articleRowId = req.body.articleRowId;
+    const query = `UPDATE PRIVATE_ARTICLE SET DELETED = '1' WHERE ARTICLE_ID = '${articleRowId}'`;
     connection.query(query,function(err,result){
-        
+        console.log(err);
+        console.log(result);
+        res.send(true);
     })
 })
 

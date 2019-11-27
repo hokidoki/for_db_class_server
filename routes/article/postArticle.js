@@ -21,8 +21,8 @@ router.post('/article',function(req,res,next){
         connection.query(queryString,function(err,result){
             console.log(err);
             connection.query(imageTableQuery,function(err,imageResult){
-                console.log(err)
-                res.send(result);
+                console.log(articleId)
+                res.send(articleId);
             })
         })
     }else{
@@ -32,8 +32,8 @@ router.post('/article',function(req,res,next){
                 if(err){
                     console.log(err)
                 }else{
-                    console.log(result);
-                    res.send(result);
+                    console.log(articleId);
+                    res.send(articleId);
                 }
          })
     }    
