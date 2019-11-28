@@ -1,24 +1,44 @@
 var mysql_dbc = require('../../public/db/db_config')();
 var connection = mysql_dbc.init();
 var express = require('express');
-var uuid = require('uuid');
 var router = express.Router();
 
 router.put('/user',function(req,res,next){
     const userId = req.body.userId;
     const nick = req.body.nick;
     const job = req.body.job;
-    const currentWeight = req.body.currentWeight;
-    const goalWeight = req.body.goalWeight;
-    const comment = req.body.comment;
-    const profileImage = req.body.profileImageSrc;
+    const currentWeight = req.body.currentWeight ? req.body.currentWeight : null;
+    const goalWeight = req.body.goalWeight ?  req.body.goalWeight : null ;
+    const comment = req.body.comment ? req.body.comment: null;
+    const profileImage = req.body.profileImageSrc ? `'${req.body.profileImageSrc}'` : null;
 
-    const query = `UPDATE user SET NAME = '${nick}', JOB = '${job}', CURRENT_WEIGHT = ${currentWeight} , GOAL_WEIGHT = ${goalWeight}
-                        COMMENT = '${comment}' PROFILE_IMAGE = '${profileImage}' WHERE ID = '${userId}'`;
+    const query = `UPDATE user SET NAME = '${nick}', JOB = '${job}', CURRENT_WEIGHT = ${currentWeight} , GOAL_WEIGHT = ${goalWeight}, COMMENT = '${comment}' ,PROFILE_IMAGE = ${profileImage} WHERE ID = '${userId}'`;
     console.log(req.query.imageState);
     connection.query(query,function(err,result){
-        console.log(err);
+        connection.query(`SELECT * FROM USER WHERE ID = '${userId}'`,function(err,userInfo){
+            connection.query(`select FRIENDS.FRIEND_ID, USER.NAME,FRIENDS.FRIENDS_ROW_ID 
+            from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
+                where FRIENDS.USER_ID ="${userId}" and FRIENDS.CHECK=1;`,function(err,friends){
+                    userInfo[0].friends = friends;
+                    res.send(userInfo);
+                })
+        })
     })
+})
+
+router.get('/user',function(req,res){
+
+
+
+    connection.query(`select FRIENDS.FRIEND_ID, USER.NAME,FRIENDS.FRIENDS_ROW_ID 
+                                        from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
+                                            where FRIENDS.USER_ID ="${req.body.ID}" and FRIENDS.CHECK=1;`,function(err,friends){
+                                                userInfo[0].friends = friends;
+                                                connection.query(`select * from group_info where group_master = '${req.body.ID}'`,function(err,manageGroup){
+                                                    userInfo[0].manageGroup = manageGroup;
+                                                    res.send(userInfo);
+                                                })
+                                            })
 })
 
 module.exports = router;
