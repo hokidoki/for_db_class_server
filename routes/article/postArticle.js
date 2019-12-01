@@ -13,11 +13,12 @@ router.post('/article',function(req,res,next){
     var selectDate = req.body.DATE;
     var comment = req.body.COMMENT;
     var imageUrl = req.body.IMAGE_URL;
+    var secret = req.body.SECRET;
     console.log(imageUrl);
     if(imageUrl){
         var imageRowId = uuid.v1();
         var imageTableQuery = `INSERT INTO IMAGE_URL(ARTICLE_ROW_ID,IMAGE_ROW_ID,IMAGE_URL,WRITER,DATE) VALUES('${articleId}','${imageRowId}','${imageUrl}','${writer}','${selectDate}')`;
-        var queryString = `INSERT INTO PRIVATE_ARTICLE(ARTICLE_ID,ID,MORNING,LUNCH,DINNER,CREATED_DATE,CREATE_AT,COMMENT) VALUES('${articleId}','${writer}','${morning}','${lunch}','${dinner}',now(),NOW(),'${comment}')`;
+        var queryString = `INSERT INTO PRIVATE_ARTICLE(ARTICLE_ID,ID,MORNING,LUNCH,DINNER,CREATED_DATE,CREATE_AT,COMMENT,SECRET) VALUES('${articleId}','${writer}','${morning}','${lunch}','${dinner}',now(),NOW(),'${comment}',${secret})`;
         connection.query(queryString,function(err,result){
             console.log(err);
             connection.query(imageTableQuery,function(err,imageResult){
@@ -26,7 +27,7 @@ router.post('/article',function(req,res,next){
             })
         })
     }else{
-        var queryString = `INSERT INTO PRIVATE_ARTICLE(ARTICLE_ID,ID,MORNING,LUNCH,DINNER,CREATED_DATE,CREATE_AT,COMMENT) VALUES('${articleId}','${writer}','${morning}','${lunch}','${dinner}',now(),NOW(),'${comment}')`;
+        var queryString = `INSERT INTO PRIVATE_ARTICLE(ARTICLE_ID,ID,MORNING,LUNCH,DINNER,CREATED_DATE,CREATE_AT,COMMENT,SECRET) VALUES('${articleId}','${writer}','${morning}','${lunch}','${dinner}',now(),NOW(),'${comment}',${secret})`;
         console.log(queryString);
             connection.query(queryString,function(err,result){
                 if(err){

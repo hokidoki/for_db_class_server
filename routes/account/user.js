@@ -27,9 +27,6 @@ router.put('/user',function(req,res,next){
 })
 
 router.get('/user',function(req,res){
-
-
-
     connection.query(`select FRIENDS.FRIEND_ID, USER.NAME,FRIENDS.FRIENDS_ROW_ID 
                                         from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
                                             where FRIENDS.USER_ID ="${req.body.ID}" and FRIENDS.CHECK=1;`,function(err,friends){
@@ -39,6 +36,30 @@ router.get('/user',function(req,res){
                                                     res.send(userInfo);
                                                 })
                                             })
+})
+
+router.get('/user/whoFollowMe',function(req,res){
+    const userId = req.query.userId;
+    const whoFollowMeQuery = `select FRIENDS_ROW_ID as frien_row ,ID, NAME, COMMENT, FRIEND.CHECK ,PROFILE_IMAGE from 
+	USER left outer join (select * from 
+		FRIENDS where USER_ID = '${userId}') as FRIEND
+			on USER.ID =  FRIEND.USER_ID
+                where ID in (select USER_id from FRIENDS where FRIEND_ID = '${userId}') and ID != '${userId}'`;
+    connection.query(whoFollowMeQuery,function(err,whoFollowMe){
+        console.log(err)
+        const whoUnfollowMeQuery= `select FRIENDS_ROW_ID as frien_row ,ID, NAME, COMMENT, FRIEND.CHECK ,PROFILE_IMAGE from 
+        USER left outer join (select * from 
+            FRIENDS where USER_ID = '${userId}') as FRIEND
+                on USER.ID =  FRIEND.USER_ID
+                    where ID not in (select USER_id from FRIENDS where FRIEND_ID = '${userId}') and ID != '${userId}'`;
+        connection.query(whoUnfollowMeQuery,function(err,whoUnfollowme){
+            console.log(err)
+            res.send({
+                whoFollowMe : whoFollowMe,
+                whoUnFollowMe : whoUnfollowme
+            })
+        })
+    })
 })
 
 module.exports = router;

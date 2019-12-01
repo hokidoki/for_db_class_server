@@ -47,5 +47,33 @@ router.delete('/article/privateArticle',function(req,res){
     })
 })
 
+router.put('/article/comment',function(req,res){
+    const where = req.body.where;
+    const updatedComment = req.body.comment;
+    const commentId = req.body.commentId; 
+
+    const query = `UPDATE ${where} SET COMMENT = '${updatedComment}' WHERE COMMENT_ROW_ID = '${commentId}'`;
+    connection.query(query,function(err,result){
+        if(!err){
+            res.send(true);
+        }else{
+            console.log(err);
+        }
+    })
+})
+
+router.delete('/article/comment',function(req,res){
+    const where = req.body.where;
+    const commentId = req.body.commentId; 
+
+    const query = `UPDATE ${where} SET DELETED = 1 WHERE COMMENT_ROW_ID = '${commentId}'`;
+    connection.query(query,function(err,result){
+        if(!err){
+            res.send(true);
+        }else{
+            console.log(err);
+        }
+    })
+})
 
 module.exports = router;
