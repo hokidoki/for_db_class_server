@@ -10,7 +10,7 @@ router.post('/user/signin',function(req,res,next){
         connection.query(queryString,function(err,userInfo){
             try {
                 if(userInfo[0].VALID){
-                    connection.query(`select FRIENDS.FRIEND_ID, USER.NAME,FRIENDS.FRIENDS_ROW_ID 
+                    connection.query(`select FRIENDS.FRIEND_ID,USER.PROFILE_IMAGE as PROFILE_IMAGE,USER.NAME,FRIENDS.FRIENDS_ROW_ID 
                                         from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
                                             where FRIENDS.USER_ID ="${req.body.ID}" and FRIENDS.CHECK=1;`,function(err,friends){
                                                 userInfo[0].friends = friends;
