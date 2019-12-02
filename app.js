@@ -15,10 +15,10 @@ var getArticle = require('./routes/article/getArticle');
 var puArticle = require('./routes/article/putArticle');
 var search = require('./routes/search/searchUser');
 var friendRequest = require('./routes/account/friendRequest');
-var group = require('./routes/group/createGroup');
+var groupAdmin = require('./routes/group/createGroup');
 var user = require('./routes/account/user');
-
-
+var message = require('./routes/message/message');
+var group = require('./routes/group/group');
 var app = express();
 
 // view engine setup
@@ -44,8 +44,9 @@ app.use('/',getArticle);
 app.use('/',puArticle);
 app.use('/',search);
 app.use('/',friendRequest);
+app.use('/',message);
 
-
+app.use('/',groupAdmin)
 app.use('/',group);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
