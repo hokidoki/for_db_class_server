@@ -19,9 +19,10 @@ router.post('/group/join',function(req,res,next){
 
 router.put('/group/join',function(req,res,next){
     var memberRowId = req.body.MEMBER_ROW_ID;
-    var check = req.body.CHECK;
+    var check = req.body.REQUEST_CHECK_STATE;
     var queryString = `update group_members set group_members.check= ${check} where MEMBER_ROW_ID ='${memberRowId}'`
     connection.query(queryString,function(err,result){
+        console.log(err);
         console.log(result);
         res.send(result);
     })
