@@ -48,11 +48,11 @@ router.get('/search',function(req,res,next){
             console.log(query)
     // var queryString = `select ID, NAME FROM USER WHERE NAME LIKE '%${reqSearchKeword}%' or ID = '${reqSearchKeword}'`;
     connection.query(query,function(err,users){
-        let queryForgroup = `select * from group_info left outer join (select * from group_members where member_id = "${reqId}") as myGroup on myGroup.group_key = group_id where group_name like "%${reqSearchKeword}%"`;
+        let queryForgroup = `select * from group_info left outer join (select * from group_members where member_id = "${reqId}") as myGroup on myGroup.group_key = group_id where group_name like "%${reqSearchKeword}%" AND deleted != 1`;
         connection.query(queryForgroup,function(err,addedGroupInfo){
             let queryForArticle = `select USER.ID as ID ,USER.NAME, article.ARTICLE_ID as ARTICLE_ROW_ID,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL 
             from USER right outer join (select * from PRIVATE_ARTICLE left outer join IMAGE_URL on PRIVATE_ARTICLE.ARTICLE_ID = IMAGE_URL.ARTICLE_ROW_ID 
-              where PRIVATE_ARTICLE.COMMENT LIKE "%${reqSearchKeword}%" AND DELETED != 1)as article on article.ID = USER.ID ORDER BY CREATED_DATE DESC;`;
+              where PRIVATE_ARTICLE.COMMENT LIKE "%${reqSearchKeword}%" AND DELETED != 1)as article on article.ID = USER.ID WHERE SECRET != 1 ORDER BY CREATED_DATE DESC;`;
               connection.query(queryForArticle,function(err,addedArticle){
                 article(addedArticle,users,addedGroupInfo,res)
             })

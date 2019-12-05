@@ -19,6 +19,8 @@ var groupAdmin = require('./routes/group/createGroup');
 var user = require('./routes/account/user');
 var message = require('./routes/message/message');
 var group = require('./routes/group/group');
+var groupMessage = require('./routes/group/groupMessage')
+var groupArticle = require('./routes/group/groupArticle');
 var app = express();
 
 // view engine setup
@@ -48,6 +50,8 @@ app.use('/',message);
 
 app.use('/',groupAdmin)
 app.use('/',group);
+app.use('/',groupMessage)
+app.use('/',groupArticle);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

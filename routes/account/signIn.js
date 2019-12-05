@@ -14,14 +14,20 @@ router.post('/user/signin',function(req,res,next){
                                         from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
                                             where FRIENDS.USER_ID ="${req.body.ID}" and FRIENDS.CHECK=1;`,function(err,friends){
                                                 userInfo[0].friends = friends;
-                                                connection.query(`select * from group_info where group_master = '${req.body.ID}'`,function(err,manageGroup){
+                                                connection.query(`select * from group_info where group_master = '${req.body.ID}' and deleted != 1`,function(err,manageGroup){
                                                     userInfo[0].manageGroup = manageGroup;
                                                     connection.query(`
                                                     select USER.ID as ID, PROFILE_IMAGE,NAME from USER where USER.ID in (
                                                                                                             select friend_id from friends where user_id = '${req.body.ID}' AND FRIEND_ID in (
                                                                                                                 select USER_ID from friends where FRIEND_ID = '${req.body.ID}' AND friends.CHECK = 1))`,function(err,bothFollow){
                                                             userInfo[0].bothFollow = bothFollow;
-                                                            res.send(userInfo);
+                                                            connection.query(`select * from 
+                                                            (select * from group_members where member_id = "${req.body.ID}" and group_members.check = 1)as joinedGroup left outer join group_info on group_key = group_id 
+                                                                where deleted != 1;`,function(err,addedJoinedGroup){
+                                                                    userInfo[0].joinedGroup = addedJoinedGroup;
+                                                                    res.send(userInfo);
+
+                                                                })
                                                     })
                                                 })
                                             })

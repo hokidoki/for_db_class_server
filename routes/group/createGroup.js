@@ -15,18 +15,11 @@ router.post('/group/create',function(req,res,next){
     
     var queryString = `INSERT INTO GROUP_INFO VALUES('${group_id}','${groupName}','${admin}','${group_comment}',now(),0)`;
     connection.query(queryString, function (err, result) {
-        if(err){
-            res.send(err)
-        }else{
-            connection.query(`SELECT * FROM GROUP_INFO WHERE GROUP_MASTER = '${admin}'`,function(err,result){
-                if(err){
-                    res.send(err);
-                }else{
-                    res.send(result);
-                }
+            connection.query(`SELECT * FROM GROUP_INFO WHERE GROUP_MASTER = '${admin}' and DELETED != 1`,function(err,addGroup){
+                    res.send(addGroup);
             })
         }
-    })
-});
+)})
+;
 
 module.exports = router;
