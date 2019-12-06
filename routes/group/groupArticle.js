@@ -21,7 +21,7 @@ router.post('/group/article',function(req,res,next){
 router.get('/group/article',function(req,res){
     
     const where = req.query.where;
-    const queryString = `select * from group_article where group_key = '${where}' ORDER BY post_date`;
+    const queryString = `select * from group_article where group_key = '${where}' ORDER BY post_date desc`;
     connection.query(queryString,function(err,result){
         console.log(result);
         console.log(err);
