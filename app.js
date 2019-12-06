@@ -21,6 +21,7 @@ var message = require('./routes/message/message');
 var group = require('./routes/group/group');
 var groupMessage = require('./routes/group/groupMessage')
 var groupArticle = require('./routes/group/groupArticle');
+var public = require('./routes/public/data');
 var app = express();
 
 // view engine setup
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/',public);
 app.use('/', indexRouter);
 app.use('/', valid);
 app.use('/', user);
