@@ -15,8 +15,10 @@ async function article(result,res) {
 
   async function getComment(item) {
     return new Promise((resolve, reject) => {
-        const commentQuery = `select * from PRIVATE_ARTICLE_COMMENT where ARTICLE_ROW_ID = '${item.ARTICLE_ROW_ID}'`;
+        const commentQuery = `select PROFILE_IMAGE,ARTICLE_ROW_ID,COMMENT_ROW_ID,WRITER,CREATED_AT,com.COMMENT,com.DELETED from (select * from PRIVATE_ARTICLE_COMMENT where ARTICLE_ROW_ID = '${item.ARTICLE_ROW_ID}') as com left outer join user
+          on com.WRITER = user.ID`;
         connection.query(commentQuery,async function(err,commentResult){
+          console.log(err)
           const addedRecomment = await Promise.all(
             commentResult.map((comment)=>{
               return getReComment(comment);
@@ -52,8 +54,11 @@ async function article(result,res) {
 
   async function getReComment(comment) {
     return new Promise((resolve, reject) => {
-        const commentQuery = `select * from PRIVATE_ARTICLE_RECOMMENT where FOR_COMMENT_ID = '${comment.COMMENT_ROW_ID}'`;
+        const commentQuery = `select PROFILE_IMAGE,WRITER,CREATED_AT,com.COMMENT,com.DELETED from  
+          (select * from PRIVATE_ARTICLE_RECOMMENT where FOR_COMMENT_ID = '${comment.COMMENT_ROW_ID}') as com left outer join user
+          on com.WRITER = user.ID`;
         connection.query(commentQuery,function(err,commentResult){
+          console.log(err);
             resolve(Object.assign(comment,{recomment : commentResult}));
         })
     });

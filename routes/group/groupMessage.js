@@ -24,6 +24,8 @@ router.get('/group/message',function(req,res){
     // const queryString = `SELECT * FROM MESSAGE WHERE (SENDER = '${user}' AND RECEIVER = '${talkWith}') or (SENDER = '${talkWith}' AND RECEIVER = '${admin}') ORDER BY SEND_DATE`;
     const queryString = `select * from group_message where group_key = '${where}' ORDER BY SEND_DATE`;
     connection.query(queryString,function(err,result){
+        console.log(result);
+        console.log(err);
         res.send(result)
     })
 })

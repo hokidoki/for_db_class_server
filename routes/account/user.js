@@ -15,7 +15,9 @@ router.put('/user',function(req,res,next){
     const query = `UPDATE user SET NAME = '${nick}', JOB = '${job}', CURRENT_WEIGHT = ${currentWeight} , GOAL_WEIGHT = ${goalWeight}, COMMENT = '${comment}' ,PROFILE_IMAGE = ${profileImage} WHERE ID = '${userId}'`;
     console.log(req.query.imageState);
     connection.query(query,function(err,result){
+        console.log(result)
         connection.query(`SELECT * FROM USER WHERE ID = '${userId}'`,function(err,userInfo){
+            console.log(userInfo)
             connection.query(`select FRIENDS.FRIEND_ID, USER.NAME,FRIENDS.FRIENDS_ROW_ID 
             from USER left outer join FRIENDS ON USER.ID = FRIENDS.FRIEND_ID
                 where FRIENDS.USER_ID ="${userId}" and FRIENDS.CHECK=1;`,function(err,friends){
