@@ -46,14 +46,14 @@ router.get('/user/whoFollowMe',function(req,res){
 	USER left outer join (select * from 
 		FRIENDS where USER_ID = '${userId}') as FRIEND
 			on USER.ID =  FRIEND.USER_ID
-                where ID in (select USER_id from FRIENDS where FRIEND_ID = '${userId}') and ID != '${userId}'`;
+                where ID in (select USER_id from FRIENDS where FRIEND_ID = '${userId}' AND FRIENDS.CHECK = 1) and ID != '${userId}'`;
     connection.query(whoFollowMeQuery,function(err,whoFollowMe){
         console.log(err)
         const whoUnfollowMeQuery= `select FRIENDS_ROW_ID as frien_row ,ID, NAME, COMMENT, FRIEND.CHECK ,PROFILE_IMAGE from 
         USER left outer join (select * from 
             FRIENDS where USER_ID = '${userId}') as FRIEND
                 on USER.ID =  FRIEND.USER_ID
-                    where ID not in (select USER_id from FRIENDS where FRIEND_ID = '${userId}') and ID != '${userId}'`;
+                    where ID in (select USER_id from FRIENDS where FRIEND_ID = '${userId}' AND FRIENDS.CHECK = 0) and ID != '${userId}'`;
         connection.query(whoUnfollowMeQuery,function(err,whoUnfollowme){
             console.log(err)
             res.send({

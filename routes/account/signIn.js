@@ -18,7 +18,7 @@ router.post('/user/signin',function(req,res,next){
                                                     userInfo[0].manageGroup = manageGroup;
                                                     connection.query(`
                                                     select USER.ID as ID, PROFILE_IMAGE,NAME from USER where USER.ID in (
-                                                                                                            select friend_id from friends where user_id = '${req.body.ID}' AND FRIEND_ID in (
+                                                                                                            select friend_id from friends where friends.CHECK = 1 AND user_id = '${req.body.ID}' AND FRIEND_ID in (
                                                                                                                 select USER_ID from friends where FRIEND_ID = '${req.body.ID}' AND friends.CHECK = 1))`,function(err,bothFollow){
                                                             userInfo[0].bothFollow = bothFollow;
                                                             connection.query(`select * from 
