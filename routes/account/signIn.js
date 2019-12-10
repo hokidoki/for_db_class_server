@@ -32,7 +32,7 @@ router.post('/user/signin',function(req,res,next){
                                                 })
                                             })
                 }else{
-                    console.log(err)
+                    res.send(userInfo)
                 }
             } catch (error) {
                 console.log(error)

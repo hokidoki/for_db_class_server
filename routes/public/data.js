@@ -6,8 +6,9 @@ var router = express.Router();
 router.get('/data',function(req,res){
     
     const addressKeyword = req.query.addressKeyword;
-
-    const queryString =`select ExercisePlace, ExerciseAddress from publicinformation where ExerciseAddress like "%${addressKeyword}%" or ExercisePlace="${addressKeyword}" order by ExercisePlace limit 0, 50`;
+    console.log(req.query)
+    console.log(addressKeyword)
+    const queryString =`select ExercisePlace, ExerciseAddress from publicinformation where ExerciseAddress like "%${addressKeyword}%" order by ExercisePlace desc limit 0, 50`;
     connection.query(queryString,function(err,result){
         console.log(err)
         res.send(result)
