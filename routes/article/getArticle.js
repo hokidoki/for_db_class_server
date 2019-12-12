@@ -83,7 +83,7 @@ router.get('/article',function(req,res,next){
       var userId = req.query.userId;  
       var queryString = `select * from (select USER.PROFILE_IMAGE,USER.ID as ID,USER.NAME, ARTICLE_ID as ARTICLE_ROW_ID ,MORNING,LUNCH,DINNER,CREATED_DATE,article.COMMENT as CONTENTS,IMAGE_ROW_ID,IMAGE_URL,SECRET from USER right outer join (select *
         from PRIVATE_ARTICLE left outer join IMAGE_URL on PRIVATE_ARTICLE.ARTICLE_ID = IMAGE_URL.ARTICLE_ROW_ID
-            where PRIVATE_ARTICLE.ID in (select FRIEND_ID from FRIENDS where USER_ID = '${userId}') or PRIVATE_ARTICLE.ID = '${userId}' AND DELETED != 1 
+            where PRIVATE_ARTICLE.ID in (select FRIEND_ID from FRIENDS where USER_ID = '${userId}' and FRIENDS.CHECK != 0) or PRIVATE_ARTICLE.ID = '${userId}' AND DELETED != 1 
                 order by CREATED_DATE desc) as article on USER.ID = article.ID) as result 
         where ARTICLE_ROW_ID not in (SELECT ARTICLE_ID FROM PRIVATE_ARTICLE where ARTICLE_ID in (select ARTICLE_ID from PRIVATE_ARTICLE where PRIVATE_ARTICLE.ID in (select FRIEND_ID from FRIENDS where USER_ID = '${userId}')) and secret = 1);`;
       connection.query(queryString,function(err,result){
